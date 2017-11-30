@@ -63,7 +63,7 @@ JavaCPP가 있다. JavaCPP는 Java에서 C++ 네이티브 코드로 효율적인
 
 JavaCPP를 이용하여 ISO 19107기반의 기하에서 공간 연산 함수 호출 시 그림과 같은 구조로 SFCGAL Wrapper객체로부터 GeoTools에서 SFCGAL의 함수를 호출할 수 있도록 구현하였다. SFCGAL의 기하 구조는 SFA의 기하 구조와 거의 같지만 3차원 기하인 Solid를 제공하기 위해 ISO 19107 공간 스키마의 Solid 타입이 추가된 구조이다. 따라서 SFCGAL의 기하 모델과 ISO 19107 인터페이스의 기하 모델이 다르므로 GeoTools 내의 ISO 19107기반의 기하에서 SFCGAL의 함수를 호출하기 위해서는 두 기하 모델 사이의 변환 과정이 필요하다. SFCGAL Convertor 에서 ISO 19107기반의 기하와 SFCGAL 기하 간의 변환을 수행하며, 두 모델 간의 대응 관계를 표를 기반으로 정의하였다. 
 </p>
-<img src="images/sfcgal2_new.png" alt="sfcgal" width="42" height="42">
+<img src="images/sfcgal2_new.PNG" alt="sfcgal" width="142" height="42">
 <p>
 \begin{table[t]
   \label{tab:mapping between sfcgal and iso
@@ -104,7 +104,7 @@ GeoTools에서는 데이터 저장소를 지원하는 기능을 DataStore라는 
 </p><p>
 범용적인 3차원 공간 정보 데이터 라이브러리를 지원하기 위해서는 3차원 공간 정보를 저장할 수 있는 다양한 데이터 저장소를 제공할 수 있어야 한다. GeoTools에서는 그림과 같은 구조로 데이터 저장소를 크게 파일 저장소와 데이터베이스 저장소로 나누어 구현한다. 파일 저장소로 제공하고 있는 포맷으로는 Shapefile, GeoJSON 등이 있고 데이터 베이스 저장소로는 PostGIS, Oracle, MySQL과 같은 다양한 데이터 베이스가 있다. 
 
-<img src="images/datastore.jpg" alt="sfcgal" width="42" height="42">
+<img src="images/datastore.JPG" alt="DATASTORE" width="142" height="42">
 이 장에서는 비교적 간단한 구조를 가지고 있는 공간 파일 포맷인 GeoJSON과 널리 사용되고 있는 오픈소스 공간 데이터 베이스인 PostGIS를 대상으로 GeoTools의 3차원 데이터 저장소로 구현하는 것을 설명한다. GeoTools에서는 각 구체적인 저장소를 필요한 인터페이스를 저장소에 맞게 구현함으로써 플러그인으로 확장할 수 있다. 
 \begin{table[t]
   \centering
@@ -230,22 +230,22 @@ Feature 타입을 만들 때, 우리는 GeoJSON의 기하 타입을 JTS 라이�
 원본 데이터는 잠실에 위치한 롯데월드몰을 대상으로 만들어진 IndoorGML %데이터와 Boston을 대상으로 만들어진 건물의 높이 정보가 있는 Open Street Map(OSM) footprint 
 데이터이다.
 그림 에서 볼 수 있는 롯데월드몰 데이터는 17층으로 구성된 건물로 3496개의 방으로 이루어져 있다.
-<img src="images/lotte.png" alt="sfcgal" width="42" height="42">
+<img src="images/lotte.png" alt="sfcgal" width="142" height="42">
 
 
 </p><p>
 실험을 위해 Cesium 위에 구축한 Client에서는 가시화한 데이터 위에 질의 대상 기하를 직접 그릴 수 있다. 
 그림은 각각 Polyline과 Surface를 질의 대상 기하로 하여 롯데월드몰 데이터에 대해 질의한 결과이다. 실내공간의 경우 여러 층이 존재하기 때문에 같은 x,y좌표를 가진 위치에 대해서 다른 Z를 가진 기하가 많으므로 3차원 질의 시 Z좌표를 고려하는 것이 매우 중요하다. 기존의 GeoTools에서는 Z좌표를 고려하지 않기 때문에 같은 X,Y좌표를 가진 다른 층의 기하도 결과로 리턴될 것이다.
-<img src="images/lottePolyline.jpg" alt="sfcgal" width="42" height="42">
-<img src="images/lotteSurface.jpg" alt="sfcgal" width="42" height="42">
-<img src="images/lottesolid.jpg" alt="sfcgal" width="42" height="42">
+<img src="images/lottePolyline.JPG" alt="sfcgal" width="142" height="42">
+<img src="images/lotteSurface.jpg" alt="sfcgal" width="142" height="42">
+<img src="images/lottesolid.JPG" alt="sfcgal" width="142" height="42">
 </p><p>
 성능 평가 방법은 다음과 같다. 한변의 길이가 1인 정육면체를 x,y,z축으로 30개씩 쌓아 한변의 길이가 30인 3차원 그리드 데이터를 만든다. 이렇게 만들어진다 합성 데이터에 미리 정의된 크기로 정사각형의 면, 정육면체를 만들어 교차 질의를 한다. 이 때 기하는 임의의 회전과 위치로 만들어지며, 같은 크기에 대하여 100번 - 200번 수행한다.
 
 
 그림은 합성 데이터에 면과 입체의 한 변의 길이를 달리하여 수행한 교차 질의에 대하여 실행 시간을 비교한 실험결과이다. 실험 결과, 면 기하의 경우 면의 한 변의 길이에 대하여 실행 시간은 2차 다항식으로 증가하였다. 그 이유는 기하 면의 한 변의 길이가 커질 수록 면적은 제곱으로 커지므로 GeoTools 내에서 필터링 되어 SFCGAL 연산으로 들어가는 기하의 갯수가 제곱비로 증가한다. 이 때, 처리하는 합성 데이터는 크기와 모양이 같으므로 실행 시간 또한 2차 다항 시간을 가진다. 또한 입체 기하의 경우 입체의 한 변의 길이에 대하여 실행 시간은 3차 다항식으로 증가하였다. 그 이유는 기하 면의 한 변의 길이가 커질 수록 면적은 세제곱으로 커지므로 GeoTools 내에서 필터링 되어 SFCGAL 연산으로 들어가는 기하의 갯수가 세제곱비로 증가한다. 이 때, 처리하는 합성 데이터는 크기와 모양이 같으므로 실행 시간 또한 3차 다항 시간을 가진다.
-<img src="selectivity2.jpg" alt="sfcgal" width="42" height="42">
-<img src="performance.jpg" alt="sfcgal" width="42" height="42">
+<img src="selectivity2.JPG" alt="sfcgal" width="142" height="42">
+<img src="performance.JPG" alt="sfcgal" width="142" height="42">
 
 
 위의 실험으로 본 논문에서 제안한 3차원을 지원하는 GeoTools에서의 3차원 공간 질의가 질의 기하의 크기에 따라 실행시간이 달라짐을 확인 하였다. 하지만 질의 기하의 크기가 같더라도 필터링 단계에서 걸러지는 기하의 갯수에 따라 연산 시간이 달라진다. 따라서 이를 여러번 반복하여 평균내는 과정에서 이상치를 약화시켰다. 실행 시간의 대부분을 차지하는 SFCGAL은 질의기하의 크기가 커짐에 따라 처리해야 할 기하의 갯수가 늘어나면서 실행시간이 오래 걸려 실시간으로 공간 질의를 처리하는 서비스에서 사용하기에는 적합하지 못하다. 따라서 SFCGAL 연산을 최소화할 수 있는 전처리 과정이 더 필요하다. 
